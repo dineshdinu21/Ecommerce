@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<div class="container mt-5">
+  <div class="card shadow-sm" style="max-width: 82%; margin: auto; margin-top: 5px;">
+    <div class="row" style="margin-bottom: -24px;">
+      {% for product in my_product %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center mb-4">
+          <div class="card h-100 shadow-sm" style="height: 200px; width: 250px;">
+            <img src="{{ product.image.url }}" height="150px" width="80px" class="card-img-top" alt="{{ product.product_name }}">
+            <div class="card-body">
+              <h5 class="card-title text-center bg-primary text-white" style="border: 1px solid #ccc; padding: 8px; box-sizing: border-box;">
+                {{ product.product_name | title }}
+              </h5>
+              <p><strong>Price:</strong> ₹{{ product.price }}</p>
+              <p><strong>Colour:</strong> {{ product.colour }}</p>
+              <p><strong>Discount:</strong> {{ product.discount }}%</p>
+              <p><strong>Delivery Charge:</strong> ₹{{ product.delivery_charge }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+    <a href="{% url 'homepage' %}" class="button">back</a>
+{% endblock %}

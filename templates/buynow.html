@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+    .cart-container {
+        border: 5px solid black;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 1000px;
+        background-color: white;
+        padding: 20px;
+    }
+    .price-card {
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .price-details{
+        width: 400px;
+        align-items: center;
+        height: auto;
+    }
+    .new {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(to right, #4a00e0, #8e2de2, #0072ff, #00c6ff);
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .cart-container{
+        border: 5px solid black;
+        border-radius: 10px;
+        width: 90%;
+        justify-content: center;
+        align-items: center;
+    }
+    .box {
+        box-sizing: border-box;
+        margin: 20px 0;
+        padding: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        max-width: 100%;
+        width: 100%;
+        margin-left: 0;
+    }
+    body {
+        /* margin-top: -100px; */
+        padding: 0;
+        overflow: hidden;
+    }
+    .place_order {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        margin-left: -42%;
+        }
+
+    .placeorder {
+        background: linear-gradient(#B91372, #6B0F1A);
+        color: white;
+        border-radius: 9px;
+        padding: 10px 20px;
+        text-align: center;
+        width: 150px;
+        margin: 0 auto;
+        }
+    .quantity{
+        margin-top: 40px;
+        margin-left: -47%;
+    }
+    
+    @media(max-width:1024px){
+        .place_order{
+            margin-left: -45%;
+        }
+    }
+    @media (max-width: 425px) {
+        body{
+            margin-top: 100px;
+            overflow-y: auto;
+        }
+    .place_order {
+        margin-top: 30px;
+        margin-left: 0;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .placeorder {
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
+        text-align: center;
+    } 
+    .quantity{
+        text-align: left;
+        margin-top: -10px;
+    }
+    }
+    @media(max-width: 320px){
+        .quantity{
+            left: 11px;
+        }
+    }
+
+</style>
+
+<div class="new">
+<div class="cart-container bg-light">
+    <div class="cart-left">
+        <!-- <h1 style="text-align: center;"><b>CART PAGE</b></h1> -->
+        <div class="container-fluid">
+        <div class="row align-items-center">
+            
+            <div class="col-12 col-md-3 text-center mb-3 mb-md-0">
+                <img src="{{ product.image.url }}" alt="no_img" height="100" width="80">
+            </div>
+
+            
+            <div class="col-12 col-md-6 text-start product-details">
+                <h5>{{ product.product_name|title }}</h5>
+                <p>Seller: {{ product.seller.username }}</p>
+                <p>Colour: {{ product.colour }}</p>
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <span class="text-decoration-line-through text-muted">₹{{ price }}</span>
+                    <span class="fw-bold">₹{{ discount_price }}</span>
+                    <span class="text-success">{{ product.discount }}% Off</span>
+                    <span class="me-2">₹{{ product.delivery_charge }} for Delivery Charge</span>
+                </div>
+                <p class="fw-bold mt-2">Total: ₹{{ total_price_new }}</p>
+            </div>
+
+           
+            <div class="col-12 col-md-3 text-center">
+                <div class="btn-group mb-3 d-flex justify-content-center align-items-center quantity" role="group">
+                    <label for="quantity" class="mb-0">Quantity:</label>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <select name="quantity" id="quantity" class="form-select" style="width: 70px;" onchange="this.form.submit()">
+                            {% for i in stock_range %}
+                                <option value="{{ i }}" {% if i == quantity %}selected{% endif %}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+
+                    <div class="place_order">
+                        <div class="text-center mt-3">
+                            <a href="{% url 'place_order' product.id %}" class="btn remove btn-sm placeorder"> 
+                                PLACE ORDER </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        </div>
+    </div>
+</div>
+{% endblock %}

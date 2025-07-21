@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to right, #00c6ff, #0072ff);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .payment-container {
+        width: 100%;
+        max-width: 450px;
+        background: #ffffff;
+        padding: 35px;
+        border-radius: 12px;
+        border: 3px solid black;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .payment-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .payment-header h2 {
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+
+    .payment-form input {
+        width: 100%;
+        padding: 14px 12px;
+        margin: 12px 0;
+        border: 1px solid #dfe4ea;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+
+    .payment-form input:focus {
+        border-color: #4a90e2;
+        outline: none;
+        box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+    }
+
+    .card-details {
+        display: flex;
+        gap: 12px;
+    }
+
+    .card-details input {
+        flex: 1;
+    }
+
+    .pay-button {
+        margin-top: 20px;
+        background-color: #27ae60;
+        color: #fff;
+        border: none;
+        width: 100%;
+        padding: 14px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .pay-button:hover {
+        background-color: #219150;
+    }
+
+    @media (max-width: 500px) {
+        .payment-container {
+            margin: auto;
+            padding: 25px;
+        }
+
+        body {
+            align-items: center;
+        }
+    }
+</style>
+
+<div class="payment-container">
+    <div class="payment-header">
+        <h2>Secure Card Payment</h2>
+        <p style="color: #7f8c8d;">Enter your card details below</p>
+    </div>
+
+    <form method="POST" class="payment-form">
+        {% csrf_token %}
+
+        <input type="text" name="cardholder_name" placeholder="Cardholder Name" required pattern="[A-Za-z\s]+"
+            title="Only alphabetic characters are allowed" style="text-transform: uppercase;">
+
+        <input type="text" name="card_number" id="card_number" placeholder="CARD NUMBER" 
+            pattern="\d{4}-\d{4}-\d{4}-\d{4}" maxlength="19" required
+            title="Enter 16-digit card number in format: 1234-5678-9012-3456">
+
+        <div class="card-details">
+            <input type="text" name="expiry_date" id="expiry_date" placeholder="MM/YY"
+                pattern="(0[1-9]|1[0-2])/\d{2}" maxlength="5" required
+                title="Enter expiry date in MM/YY format">
+
+            <input type="password" name="cvv" maxlength="3" placeholder="CVV" required pattern="\d{3}"
+                title="Only numeric characters are allowed">
+        </div>
+
+        {% if not is_cart %}
+            <button type="submit" class="pay-button">Pay ₹{{ total_price_new }}</button>
+        {% else %}
+            <button type="submit" class="pay-button">Pay ₹{{ total_amount_cart }}</button>
+        {% endif %}
+    </form>
+</div>
+
+{% endblock %}

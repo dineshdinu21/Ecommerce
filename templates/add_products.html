@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+  body{
+    background: linear-gradient(to right, #00c6ff, #0072ff, #8e2de2, #4a00e0);
+  }
+  .body2 {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+    max-width: 850px;
+    border: 5px solid black;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+  }
+
+  .card-header {
+    border-bottom: 3px solid #000;
+  }
+  @media(max-width: 425px){
+    .body2{
+      margin-top: 70%;
+      margin-bottom: 45%;
+    }
+  }
+  @media(max-width:320px){
+    .body2{
+      margin-top: 85%;
+      margin-bottom: 55%
+    }
+  }
+</style>
+
+<div class="body2">
+  <div class="card shadow-lg">
+    <div class="card-header text-center text-white" style="background-color: #198754;">
+      <h3>Add Product</h3>
+    </div> 
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row mb-3">
+          <div class="col-md-4">{{ form.image.label_tag }}{{ form.image }}</div>
+          <div class="col-md-4">{{ form.product_name.label_tag }}{{ form.product_name }}</div>
+          <div class="col-md-4">{{ form.colour.label_tag }}{{ form.colour }}</div>
+        </div>
+
+        <div class="row mb-3">   
+          <div class="col-md-4">{{ form.description.label_tag }}{{ form.description }}</div>
+          <div class="col-md-4">{{ form.price.label_tag }}{{ form.price }}</div>
+          <div class="col-md-4">{{ form.discount.label_tag }}{{ form.discount }}</div>
+        </div>
+
+        <div class="row mb-3">          
+          <div class="col-md-4">{{ form.delivery_charge.label_tag }}{{ form.delivery_charge }}</div>
+          <div class="col-md-4">{{ form.stock.label_tag }}{{ form.stock }}</div>
+        </div>
+
+        <div class="d-grid gap-2 mt-4">
+          <button type="submit" class="btn btn-success">Add Product</button>
+          <a href="{% url 'product_details' %}" class="btn btn-outline-secondary">Back</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

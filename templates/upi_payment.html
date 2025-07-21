@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <style>
+        body{
+            margin-top: 200px;
+            background: linear-gradient(to right, #00c6ff, #0072ff, #8e2de2, #4a00e0);
+        }
+        .payment-card {
+            max-width: 550px;
+            margin: 60px auto;
+            padding: 30px;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border: 3px solid #000;
+        }
+
+        .payment-methods input[type="radio"] {
+            display: none;
+        }
+
+        .payment-methods label {
+            display: inline-block;
+            margin-right: 20px;
+            cursor: pointer;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .payment-methods input[type="radio"]:checked + label {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+        .upi-option,
+        .qr-option {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #upi:checked ~ .upi-option {
+            display: block;
+        }
+
+        #qr:checked ~ .qr-option {
+            display: block;
+        }
+
+        .qr-option img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="payment-card">
+    <h4 class="text-center mb-4">Choose Payment Method</h4>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="payment-methods text-center">
+            <input type="radio" id="upi" name="method" value="upi" checked>
+            <label for="upi">Pay with UPI ID</label>
+
+            <input type="radio" id="qr" name="method" value="qr">
+            <label for="qr">Scan QR Code</label>
+        </div>
+        
+        
+        <!-- <div class="mt-4">
+            <label class="form-label"><b>Amount</b></label>
+            <input type="text" class="form-control" name="amount" value="₹{{ total_amount }}" readonly>
+        </div> -->
+
+        {% if not is_cart %}
+            <div class="mt-4">
+                <label class="form-label"><b>Amount (Buy Now)</b></label>
+                <input type="text" class="form-control" name="amount" value="₹{{ total_price_new }}" readonly>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-4">Pay ₹{{ total_price_new }}</button>
+        {% else %}
+            <div class="mt-4">
+                <label class="form-label"><b>Amount (Cart)</b></label>
+                <input type="text" class="form-control" name="amount" value="₹{{ total_amount_cart }}" readonly>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-4">Pay ₹{{ total_amount_cart }}</button>
+        {% endif %}
+
+
+
+        
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+          
+          
+          .container {
+            background-image: url("{% static 'images/shop.jpg' %}");
+            background-size: cover;
+            background-position: center;
+          }
+          @media (max-width: 1440px){
+            .container{
+              padding: 0;
+              width: 92%;
+            }
+          }
+          @media (max-width: 768px) {
+            .container {
+              justify-content: center;
+              padding: 20px;
+              background-image: none;
+              background-color: #2bbec4;
+            }
+
+            .card-body {
+              margin-left: 0 !important;
+              padding: 16px !important;
+              box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            }
+          }
+          
+          @media (max-width:425px){
+            .container{
+              width: 90%;
+            }
+          }
+          @media (max-width:320px){
+            .container{
+              width: 100%;
+              
+            }
+          }
+        </style>
+        <div class="p-4">
+        <div class="container">
+        
+          <div class="card-body p-4" style="margin-left: 65%;">
+            <div class="mb-4">
+              <h3><b>Registration</b></h3>
+              <p class="text-white"><b>Enter your details to register</b></p>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+
+              <div class="mb-3" style="box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.3);">
+                {{ form.username }}
+                {{ form.username.errors }}
+              </div>
+
+              <div class="mb-3">
+                {{ form.password }}
+                {{ form.password.errors }}
+              </div>
+
+              <div class="mb-3">
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+              </div>
+
+              <div class="mb-3">
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+              </div>
+
+              <div class="mb-3">
+                {{ form.last_name }}
+                {{ form.last_name.errors }}
+              </div>
+
+              <div class="mb-3">
+                {{ form.address }}
+                {{ form.address.errors }}
+              </div>
+
+              <div class="mb-3">
+                {{ form.email }}
+                {{ form.email.errors }}
+              </div>
+
+              <div class="mb-3">
+                {{ form.mobile }}
+                {{ form.mobile.errors }}
+              </div>
+
+              <div class="mb-3 form-control">
+                {{ form.seller_profile }}
+                {{ form.seller_profile.errors }}
+              </div>
+
+              {% if form.non_field_errors %}
+              <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+              {% endif %}
+
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn text-white" style="background-color: rgb(3, 3, 124);">Sign up</button>
+              </div>
+            </form>
+
+            <p class="text-center"><b>Already have an account? </b><a href="{% url 'user_login' %}"><b>Sign in</b></a></p>
+          </div>
+        </div>
+      </div>
+
+
+{% endblock %}

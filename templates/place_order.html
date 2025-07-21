@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+    body {
+      background: linear-gradient(to right, #00c6ff, #0072ff, #8e2de2, #4a00e0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .registration-card {
+      border: 3px solid black;
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      width: 900px;
+    }
+
+    .registration-card h2 {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+
+    .form-control {
+      border-radius: 10px;
+    }
+
+    .btn-submit {
+      background: #5a55fe;
+      color: white;
+      padding: 10px 30px;
+      font-weight: bold;
+      border-radius: 10px;
+    }
+
+    .btn-submit:hover {
+      background: #3c3ab3;
+    }
+
+    .form-container {
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 100%;
+    }
+
+    .form-container label {
+      text-align: left !important;
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .payment_method{
+      width: 300px;
+    }
+    .placeorder{
+      width: 33.3333%;
+      margin-top: 1.5rem;
+      
+    }
+    .place_order{
+        background: linear-gradient(#B91372 ,#6B0F1A);
+        color: white;
+        border: 3px solid black;
+    }
+
+    @media (max-width: 1440px){
+        .registration-card{
+            margin-top: 40px;
+            height: 470px;
+            padding: 2px;
+        }
+    }
+    @media (max-width: 768px) {
+      .col-md-4 {
+        width: 50%;
+        flex: 0 0 50%;
+      }
+
+      .registration-card {
+        width: 94%;
+        height: 665px;
+        margin: 20px;
+      }
+      .placeorder{
+        width: 100%;
+        margin-top: 24px;
+      }
+    }
+    @media (max-width: 425px) {
+      .registration-card {
+        margin: 20px auto;        
+        width: 95%;              
+        height: auto;              
+      }
+      .payment_method{
+        width: 75px;
+      }
+
+      body {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      
+    }
+
+  </style>
+
+<div class="registration-card bg-light">
+  <div class="form-container">
+    <h2>Enter Your Details</h2>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="row g-3">
+        <div class="col-md-4">
+         {{ form.name.label_tag }}
+         {{ form.name }}
+        </div>
+
+        <div class="col-md-4">
+         {{ form.door_no.label_tag }}
+         {{ form.door_no }}
+        </div>
+
+        <div class="col-md-4">
+           {{ form.street_name.label_tag }}
+           {{ form.street_name }}
+        </div>
+
+        <div class="col-md-4">
+           {{ form.city_name.label_tag }}
+           {{ form.city_name }}
+        </div>
+
+        <div class="col-md-4">
+           {{ form.zip_code.label_tag }}
+           {{ form.zip_code }}
+        </div>
+
+        <div class="col-md-4">
+           {{ form.mobile.label_tag }}
+           {{ form.mobile }}
+        </div>
+
+        <div class="col-md-4">
+           {{ form.district.label_tag }}
+           {{ form.district }}
+        </div>
+
+        <div class="col-md-4">
+           {{ form.state.label_tag }}
+           {{ form.state }}
+        </div>
+
+        <div class="col-md-4">
+           {{ form.country.label_tag }}
+           {{ form.country }}
+        </div>
+
+        <div class="col-md-4">
+       
+           <label>{{ form.payment_method.label_tag }}</label>
+           <div class="payment_method">
+              {{ form.payment_method }}
+           </div>
+        </div>
+
+      <div class="placeorder">
+        <button type="submit" class="btn px-4 place_order">Place Order</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

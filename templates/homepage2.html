@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<style>
+  body{
+    margin-top: 8%;
+    background: linear-gradient(to right, #00c6ff, #0072ff, #8e2de2, #4a00e0);
+  }
+  h2 {
+    text-align: center;
+    margin: 30px 0;
+    color: #eee;
+    font-weight: bold;
+  }
+
+  .card {
+    width: 100%;
+    min-height: 300px;
+    text-align: center;
+    padding: 15px;
+    border: 3px solid black;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  }
+
+  .card img {
+    object-fit: contain;
+    max-height: 150px;
+    margin: auto;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 0 auto 40px auto;
+  }
+
+  .col-custom {
+    flex: 0 0 auto;
+    width: 16.6667%; /* 6 per row */
+  }
+  @media(max-width:1440px){
+    .monitor-img{
+      height: 120px;
+      margin-top: 15px;
+    }
+    .monitor{
+      margin-top: 25px;
+    }
+  }
+  @media (max-width: 1024px) {
+    .col-custom {
+      width: 33.3333%; /* 3 per row */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .col-custom {
+      width: 50%; /* 2 per row */
+    }
+  }
+
+  @media (max-width: 576px) {
+    .col-custom {
+      width: 100%; /* 1 per row */
+    }
+  }
+</style>
+
+<!-- <h1>Welcome To Homepage</h1> -->
+
+<h2>Electronics Products</h2>
+<div class="row">
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'images/watch.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Smart Watches</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'images/boat.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Earbuds</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'images/dell.webp' %}" alt="" class="monitor-img"> 
+      <div class="card-body monitor">
+        <h5 class="card-title">Monitors</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'images/projector.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Projectors</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'images/mobile.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Mobile Phones</h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Toys for Kids</h2>
+<div class="row">
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'toys/1.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Teddy Bears</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'toys/2.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Car Toys</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'toys/3.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Baby Cars</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'toys/4.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Helicopters</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'toys/6.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Puzzle Games</h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Styles & Fashion</h2>
+<div class="row">
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'dress/1.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Casual Shoes</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'dress/2.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Men's Wear</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'images/cap.jpg' %}" alt="no img">
+      <div class="card-body">
+        <h5 class="card-title">Caps & Hats</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'dress/4.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Backpacks</h5>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-custom">
+    <div class="card">
+      <img src="{% static 'dress/6.webp' %}" alt="">
+      <div class="card-body">
+        <h5 class="card-title">Hand Bags</h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

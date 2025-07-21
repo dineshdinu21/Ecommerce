@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    body{
+        background: linear-gradient(to right, #00c6ff, #0072ff, #8e2de2, #4a00e0);
+    }
+    th, td {
+        text-align: center;
+    }
+
+    .order-table {
+        border: 2px solid black;
+        margin: 20px auto; 
+        width: 90%; 
+    }
+</style>
+
+<h2 class="text-center my-4 text-white"><strong>My Order History</strong></h2>
+
+{% if orders %}
+<!-- <a href="{% url 'delete_history' %}">Delete</a> -->
+  <table class="table table-bordered order-table">
+    <thead class="table-dark">
+      <tr>
+        <th>Product</th>
+        <th>Image</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Ordered Date</th>
+        <th>Shipping Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td class="bg-light">{{ order.product.product_name|title }}</td>
+        <td class="bg-light"><img src="{{ order.product.image.url }}" width="60" height="60"></td>
+        <td class="bg-light">{{ order.quantity }}</td>
+        <td class="bg-light">₹{{ order.price }}</td>
+        <!-- <td class="bg-light">{{ status }}</td> -->
+        <td class="bg-light">{{ order.date_time|date:"F j, Y, g:i A" }}</td>
+        <td class="bg-light" style="width: 270px; text-align: left;">{{ order.door_no }}, {{ order.street_name }}, <br> {{ order.city_name }} - {{ order.zip_code }} <br>{{ order.district }}, {{ order.state }}.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="text-center text-muted">You have not placed any orders yet.</p>
+{% endif %}
+
+{% endblock %}
