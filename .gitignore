@@ -1,0 +1,24 @@
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Django migration files
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Database
+*.sqlite3
+db.sqlite3
+
+# Environment files
+.env
+
+
+# VS Code settings
+.vscode/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+venv_name/
