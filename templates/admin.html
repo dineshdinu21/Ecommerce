@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f4f8;
+    height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dashboard-container {
+    width: 600px;
+    margin: 100px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 28px;
+    letter-spacing: 1px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 16px;
+    text-align: left;
+    font-size: 16px;
+  }
+  td{
+    text-align: end;
+  }
+
+  th,td {
+    background-color: #f7f9fc;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    width: 50%;
+  }
+
+  a {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+
+  a:hover {
+    background-color: #0056b3;
+  }
+
+  tr:hover {
+    background-color: #f0f8ff;
+  }
+  @media(max-width:425px){
+    .dashboard-container{
+      width: 370px;
+    }
+
+  }
+  @media(max-width:320px){
+    .dashboard-container{
+      width: 300px;
+    }
+  }
+</style>
+
+<div class="dashboard-container">
+  <h2>Admin Dashboard</h2>
+  <table>
+    <tr>
+      <th>Users</th>
+      <td><a href="{% url 'user' %}">Click here</a></td>
+    </tr>
+    <tr>
+      <th>Sellers</th>
+      <td><a href="{% url 'seller' %}">Click here</a></td>
+    </tr>
+    <tr>
+      <th>Products</th>
+      <td><a href="{% url 'products' %}">Click here</a></td>
+    </tr>
+  </table>
+</div>
+
+{% endblock %}

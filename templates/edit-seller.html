@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+  body {
+    background: #f0f4f8;
+  }
+
+  .edit-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 40px 15px;
+  }
+
+  .edit-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 850px;
+    width: 100%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .edit-card h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #1f2937;
+  }
+
+  label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .form-control {
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+
+  .btn-update {
+    background-color: #1d4ed8;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+  }
+
+  .btn-update:hover {
+    background-color: #1e40af;
+  }
+
+  #id_user_profile {
+    display: none;
+  }
+</style>
+
+<div class="edit-wrapper" style="background: linear-gradient(to right, #00c6ff, #0072ff, #8e2de2, #4a00e0);">
+  <div class="edit-card">
+    
+    <h3>👤 Edit Profile</h3>
+    
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <!-- Profile image upload -->
+      <div class="text-center mb-4">
+        <label for="id_seller_profile" style="cursor: pointer;">
+            {% if form.instance.user_profile %}
+            <img src="{{ form.instance.seller_profile.url }}"
+                alt="Current Profile Image"
+                style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 2px solid #0d6efd;">
+            {% else %}
+            <div style="width: 130px; height: 130px; border-radius: 50%; background: #eee;
+                        display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                Upload
+            </div>
+            {% endif %}
+        </label>
+        
+        </div>
+
+      <div class="row">
+        <div class="col-md-6">
+
+          <label for="{{ form.first_name.id_for_label }}">First Name</label>
+          {{ form.first_name }}
+
+          <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+          {{ form.last_name }}
+
+          <label for="{{ form.email.id_for_label }}">Email</label>
+          {{ form.email }}
+        </div>
+
+        <div class="col-md-6">
+          <label for="{{ form.mobile.id_for_label }}">Mobile</label>
+          {{ form.mobile }}
+
+          <label for="{{ form.address.id_for_label }}">Address</label>
+          {{ form.address }}
+            <br>
+          <input type="file" name="{{ form.seller_profile.name }}" id="{{ form.seller_profile.id_for_label }}" class="form-control">
+
+        </div>
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="text-danger mb-3">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      <button type="submit" class="btn-update mt-3">Update Profile</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

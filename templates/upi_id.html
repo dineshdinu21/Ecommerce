@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to right, #00c6ff, #0072ff, #8e2de2, #4a00e0);
+        }
+
+    .payment-card {
+            max-width: 450px;
+            height: 443px;
+            margin: 20px auto;
+            padding: 25px;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border: 3px solid #000;
+        }
+    .bhim{
+            margin: 10px 0px 0px 100px;
+        }
+    @media(max-width:425px){
+        .payment-card{
+            max-width: 400px;
+            height: 470px;
+        }
+    }
+    @media(max-width:375px){
+        .payment-card{
+            max-width: 370px;
+            height: 470px;
+        }
+        .bhim{
+            margin-left: 57px;
+        }
+    }
+    @media(max-width:320px){
+        .payment-card{
+            max-width: 318px;
+            height: 485px;
+            padding: auto;
+        }
+        .bhim{
+            margin-left: 10px;
+        }
+    }
+</style>
+
+<div class="payment-card">
+    <div class="upi-option">
+        <div style="display: flex;">
+            <img src="{% static 'images/bhim2.png' %}" alt="no img" height="100px" width="200px">
+            <div class="bhim">
+                <img src="{% static 'images/bhim.png' %}" alt="no img" height="80px" width="135px">
+            </div>
+        </div>
+        <div style="margin-top: -30px; margin-left: 22px; margin-right: 22px;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="method" value="upi">
+                <label for="upi_id" class="form-label mt-3">Enter your UPI ID</label>
+                <input type="text" class="form-control" name="upi_id" id="upi_id" placeholder="example@upi" required
+                    pattern="[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}" title="Enter a valid UPI ID (e.g., example@upi)">
+                    
+                    <button type="submit" class="btn btn-primary mt-4 w-100">PROCESSED</button>
+            </form>
+        </div>
+         <br>
+        <p style="margin-left: 22px; margin-right: 22px; font-size: 15px; margin-top: -17px;">By proceeding further, you authorize PayU Payments Ltd. to
+            debit from your bank account and also agree to set up
+            for Standing Instructions.</p>
+        <div style="text-align: center; margin-top: -18px;">
+            <img src="{% static 'images/bhim.jpg' %}" alt="no img" height="100px" width="auto">
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

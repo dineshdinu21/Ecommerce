@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Background and Custom Styles -->
+<style>
+  body {
+    background: linear-gradient(to right, #00c6ff, #0072ff, #8e2de2, #4a00e0);
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .card {
+    border: 3px solid black;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .btn-edit {
+    background-color: 	#274bdb;
+    border: none;
+    color: white;
+  }
+
+  .btn-delete {
+    background-color: #274bdb;
+    border: none;
+  }
+
+  .welcome {
+    text-align: center;
+    margin: 30px 0 10px;
+    font-size: 2rem;
+    font-weight: 700;
+    /* color: white; */
+  }
+</style>
+
+<!-- Welcome Message -->
+<h2 class="welcome text-white"><strong>Welcome, {{ request.user.first_name|title }}!</strong></h2> <br>
+
+<!-- Product Grid -->
+<div class="container">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    {% for product in products %}
+    <div class="col d-flex">
+      <div class="card shadow-sm flex-fill">
+        <div class="d-flex justify-content-center align-items-center mt-2">
+        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.product_name }}" style="height: 180px; border-radius: 15px 15px 0 0;">
+        </div>
+        <div class="card-body text-center">
+          <h5 class="card-title text-primary">{{ product.product_name|title }}</h5>
+          <p><strong>Price:</strong> ₹{{ product.price }}</p>
+          <!-- <p><strong>Discount:</strong> {{ product.discount }}%</p>
+          <p><strong>Colour:</strong> {{ product.colour }}</p> -->
+          <div class="d-flex justify-content-center gap-2 mt-3">
+            <a href="{% url 'edit_products' product_id=product.id %}" class="btn btn-sm btn-edit">✏️ Edit</a>
+            <a href="{% url 'delete_products' product_id=product.id %}" class="btn btn-sm btn-delete text-white">🗑️ Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Back Button -->
+<div class="text-center mt-4">
+  <a href="{% url 'homepage' %}" class="btn bg-danger" style="color: white; border: 3px solid black;"><b>Back to Home</b></a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+    body {
+      background: linear-gradient(to right,#0072ff, #99d4e5, #0072ff);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .login-container {
+      background-color: white;
+      padding: 20px;
+      border: 5px solid black;
+      border-radius: 20px;
+      /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); */
+      display: flex;
+      max-width: 900px;
+      width: 100%;
+      margin-top: 1px;
+      margin-bottom: 1px;
+    }
+
+    .left-section {
+      flex: 1;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .left-section h2 {
+      font-weight: bold;
+      color: #6f42c1;
+    }
+
+    .right-section {
+      flex: 1;
+      background-color: #fce4ff;
+      padding: 50px;
+      border-radius: 15px;
+      margin-top: 2%;
+      height: 410px;
+      margin-left: 10px;
+    }
+
+    .form-control {
+      border-radius: 8px;
+    }
+
+    .login-btn {
+      background-color: #6f42c1;
+      color: white;
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .login-btn:hover {
+      background-color: #5a379f;
+    }
+
+    .icon {
+      margin-right: 8px;
+      color: #6f42c1;
+    }
+
+    .left-section img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 20px;
+    }
+
+    .small-text {
+      font-size: 0.875rem;
+      text-align: right;
+    }
+    @media (max-width: 1440px) {
+      .login-container{
+        margin-top: 0%;
+        margin-bottom: 0%px;
+        height: 450px;
+        width: 100%;
+      }
+      .right-section{
+        margin-top: 3px;
+      }
+    }
+    @media (max-width:425px){
+      .left-section{
+        display: none;
+      }
+    }
+  </style>
+
+  <div class="login-container">
+
+    <div class="left-section">
+      <h2>ONLINE SHOPPING</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore</p>
+      <img src="{% static 'images/online.png' %}" alt="Online Shopping" />
+    </div>
+
+    <div class="right-section">
+      <h4 class="mb-4 text-center fw-bold text-dark">USER LOGIN</h4> <br>
+      <form method="POST" enctype="multipart/form-data"  style="height: 50%;"> 
+        {% csrf_token %}
+        <div>
+          {% if messages %}
+              {% for message in messages %}
+              <div style="color: red;">{{ message }}</div>
+              {% endfor %}
+          {% endif %}
+        </div>
+        <div class="mb-3 d-flex align-items-center">
+          {{ form.username }}
+          {{ form.username.errors }}
+        </div>
+
+        <div class="mb-3 d-flex align-items-center">
+          {{ form.password }}
+          {{ form.password.errors }}
+        </div>
+
+        <button type="submit" class="btn login-btn mb-3">LOGIN</button>
+
+        <div class="text-center">
+          <a href="{% url 'user_register' %}">Create Account</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+
+
