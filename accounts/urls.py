@@ -36,5 +36,6 @@ urlpatterns = [
     path('clear_history/',views.clear_order_history,name='delete_history'),
     path('edit-user/<int:user_id>/',views.edit_user, name='edit_user'),
     path('edit-seller/<int:seller_id>/',views.edit_seller,name='edit_seller'),
-    path('about/',views.about,name='about')
+    path('about/',views.about,name='about'),
+    path('product-search/',views.products_search, name='product_search'),
 ]

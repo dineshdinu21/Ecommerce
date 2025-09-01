@@ -99,16 +99,30 @@
 <div style="background: linear-gradient(to right, #00c6ff, #0072ff, #8e2de2, #4a00e0);">
 <h1><strong>Welcome To Homepage</strong></h1>
 <div class="container mt-5">
+  <!-- {% if request.GET.q_product %}
+    <h1>Search Results for "{{ request.GET.q_product }}"</h1>
+  {% else %}
+    <h1>All Products</h1>
+  {% endif %} -->
+
   <div class="row">
-    {% for product in product_details %}
+    {% if products %}
+    {% for product in products %}
+    
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center mb-4">
         <div class="card shadow-sm">
           <div class="d-flex justify-content-center align-items-center mt-3">
-            <img src="{{ product.image.url }}" class="card-img-top image" alt="{{ product.product_name }}" style="width: auto;">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top image" alt="{{ product.product_name }}">
+                
+            {% else %}
+                <p class="text-muted">No Image</p>
+                {{ product.highlighted_productname|safe }}
+            {% endif %}          
           </div>
           <div class="card-body">
             <h5 class="card-title text-center bg-primary text-white p-2 rounded">
-              {{ product.product_name | title }}
+              {{ product.highlighted_productname|safe }}
             </h5>
             <div class="mx-auto" style="max-width: 120px;">
             <div class="d-flex justify-content-between fw-bold">
@@ -146,6 +160,9 @@
         </div>
       </div>
     {% endfor %}
+  {% else %}
+      <p class="text-center text-warning fw-bold">No products found.</p>
+  {% endif %}
   </div>
 </div>
 </div>

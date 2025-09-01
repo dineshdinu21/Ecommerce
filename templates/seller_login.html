@@ -118,9 +118,12 @@
           {{ form.username.errors }}
         </div>
 
-        <div class="mb-3 d-flex align-items-center">
+        <div class="mb-3 d-flex align-items-center position-relative">
           {{ form.password }}
           {{ form.password.errors }}
+          <i class="bi bi-eye" id="togglePassword" 
+            style="position:absolute; right:15px; top:8px; cursor:pointer; font-size:18px;">
+          </i>
         </div>
 
         <button type="submit" class="btn login-btn mb-3">LOGIN</button>

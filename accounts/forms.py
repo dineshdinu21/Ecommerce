@@ -13,9 +13,13 @@ password_validator = RegexValidator(
 )
 
 class UserForm(forms.ModelForm):
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Password', 'id': 'password'})
+        )
     password2 = forms.CharField(
         label="Confirm Password", 
-        widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Conform Password'}),
+        widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Confirm Password','id':'confirm_password'}),
         required=True
     )
     user_profile = forms.ImageField(
@@ -29,13 +33,11 @@ class UserForm(forms.ModelForm):
 
         widgets={
             'username':forms.TextInput(attrs={'class': 'form-control','placeholder': 'User Name'}),
-            'password':forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Password'}),
-            'password2':forms.PasswordInput(attrs={}),
             'first_name':forms.TextInput(attrs={'class': 'form-control','placeholder': 'First Name'}),
             'last_name':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Last Name'}),
             'address':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Address'}),
             'email': forms.EmailInput(attrs={'class': 'form-control','placeholder': 'Email'}),
-            'mobile':forms.TextInput(attrs={'class':'form-control','placeholder': 'Mobile Number'})
+            'mobile':forms.TextInput(attrs={'class':'form-control','placeholder': 'Mobile Number', 'maxlength': 14})
             }
 
     def clean_password2(self):
@@ -67,14 +69,14 @@ class LoginForm(forms.ModelForm):
         fields = ['username','password']
         widgets={
             'username':forms.TextInput(attrs={'class': 'form-control','placeholder': 'User Name'}),
-            'password':forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Password'}),
+            'password':forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Password','id':'password'}),
         }
 
 
 class SellerForm(forms.ModelForm):
     password2 = forms.CharField(
         label="Confirm Password", 
-        widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Conform Password'})
+        widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Conform Password','id':'confirm_password'})
     )
 
     class Meta:
@@ -83,13 +85,12 @@ class SellerForm(forms.ModelForm):
 
         widgets={
             'username':forms.TextInput(attrs={'class': 'form-control','placeholder': 'User Name'}),
-            'password':forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Password'}),
-            'password2':forms.PasswordInput(attrs={}),
+            'password':forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Password','id':'password'}),
             'first_name':forms.TextInput(attrs={'class': 'form-control','placeholder': 'First Name'}),
             'last_name':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Last Name'}),
             'address':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Address'}),
             'email': forms.EmailInput(attrs={'class': 'form-control','placeholder': 'Email'}),
-            'mobile':forms.TextInput(attrs={'class':'form-control','placeholder': 'Mobile Number'})
+            'mobile':forms.TextInput(attrs={'class':'form-control','placeholder': 'Mobile Number', 'maxlength': 14})
             }
 
     def clean_password2(self):
@@ -112,7 +113,7 @@ class SellerLoginForm(forms.ModelForm):
         fields = ['username','password']
         widgets={
             'username':forms.TextInput(attrs={'class': 'form-control','placeholder': 'User Name'}),
-            'password':forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Password'}), 
+            'password':forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Password','id':'password'}), 
 
         }
 
@@ -126,7 +127,7 @@ class ProductsAddingForm(forms.ModelForm):
             'colour': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Enter color'}),
             'description': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Enter product description'}),
             'price': forms.NumberInput(attrs={'class': 'form-control','placeholder': 'Enter price'}),
-            'discount': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Enter discount (e.g. 10%)'}),
+            'discount': forms.NumberInput(attrs={'class': 'form-control','placeholder': 'Enter discount (e.g. 10%)'}),
             'delivery_charge': forms.NumberInput(attrs={'class': 'form-control','placeholder': 'Enter delivery charge'}),
             'stock': forms.NumberInput(attrs={'class': 'form-control','placeholder': 'Enter stock quantity'}),
         }
@@ -139,15 +140,16 @@ class ResetPasswordForm(forms.Form):
 
     old_password = forms.CharField(
         label="Old Password",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Old password'})
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Old password','id':'reset_old_password'})
     )
     
     new_password = forms.CharField(
         label="New Password",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'New password'}))
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'New password','id':'reset_new_password'})
+    )
     confirm_password = forms.CharField(
         label="Confirm Password",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm password'})
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm password','id':'reset_confirm_password'})
     )
 
     def clean(self):

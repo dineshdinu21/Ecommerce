@@ -50,25 +50,25 @@
         {% csrf_token %}
 
         <div class="row mb-3">
-          <div class="col-md-4">{{ form.image.label_tag }}{{ form.image }}</div>
-          <div class="col-md-4">{{ form.product_name.label_tag }}{{ form.product_name }}</div>
-          <div class="col-md-4">{{ form.colour.label_tag }}{{ form.colour }}</div>
+          <div class="col-md-4">{{ form.image.label_tag }}{{ form.image }}{{ form.image.errors }}</div>
+          <div class="col-md-4">{{ form.product_name.label_tag }}{{ form.product_name }}{{ form.product_name.errors }}</div>
+          <div class="col-md-4">{{ form.colour.label_tag }}{{ form.colour }}{{ form.colour.errors }}</div>
         </div>
 
         <div class="row mb-3">   
-          <div class="col-md-4">{{ form.description.label_tag }}{{ form.description }}</div>
-          <div class="col-md-4">{{ form.price.label_tag }}{{ form.price }}</div>
-          <div class="col-md-4">{{ form.discount.label_tag }}{{ form.discount }}</div>
+          <div class="col-md-4">{{ form.description.label_tag }}{{ form.description }}{{ form.description.errors }}</div>
+          <div class="col-md-4">{{ form.price.label_tag }}{{ form.price }}{{ form.price.errors }}</div>
+          <div class="col-md-4">{{ form.discount.label_tag }}{{ form.discount }}{{ form.discount.errors }}</div>
         </div>
 
         <div class="row mb-3">          
-          <div class="col-md-4">{{ form.delivery_charge.label_tag }}{{ form.delivery_charge }}</div>
-          <div class="col-md-4">{{ form.stock.label_tag }}{{ form.stock }}</div>
+          <div class="col-md-4">{{ form.delivery_charge.label_tag }}{{ form.delivery_charge }}{{ form.delivery_charge.errors}}</div>
+          <div class="col-md-4">{{ form.stock.label_tag }}{{ form.stock }}{{ form.stock.errors }}</div>
         </div>
 
         <div class="d-grid gap-2 mt-4">
           <button type="submit" class="btn btn-success">Add Product</button>
-          <a href="{% url 'product_details' %}" class="btn btn-outline-secondary">Back</a>
+          <a href="{% url 'view_products' %}" class="btn btn-outline-secondary">Back</a>
         </div>
 
       </form>

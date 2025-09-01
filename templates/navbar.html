@@ -34,6 +34,54 @@
         align-items: center;
     }
 
+    button {
+        padding: 6px 14px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .nav-form {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .nav-text{
+        padding: 6px 14px;
+        font-size: 16px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        width: 300px;
+        transition: 0.3s;
+    }
+
+    .nav-text:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+    @media(max-width:2060px){
+        .nav-text{
+            margin-left: -86%;
+            width: 500px;
+        }
+    }
+    @media(max-width:1440px){
+        .nav-text{
+            margin-left: auto;
+        }
+        .nav-text{
+            width: 300px;
+        }
+    }
+    @media(max-width:1024px){
+        .nav-text{
+            width: 200px;
+        }
+    }
 </style>
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-light px-3" style="padding: 30px;">
@@ -53,15 +101,21 @@
     
             {% if user.is_authenticated %}
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            
-                    
+                {% if request.path|slice:":17" != "/admin-dashboard/" %}
+                    <li>
+                        <form method="get" class="nav-form">
+                            <input type="text" class="nav-text" name="q_product" placeholder="Search products..." value="{{ request.GET.q_product }}">
+                            <!-- <button type="submit">Search</button> -->
+                        </form>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     {% if user.user_type == "seller" %}
                         <a class="nav-link" href="{% url 'view_products' %}">
                             <b>Home</b>
                         </a>
                     {% else %}
-                        <a class="nav-link" href="{% url 'product_details' %}">
+                        <a class="nav-link" href="{% url 'product_search' %}">
                             <b>Home</b>
                         </a>
                     {% endif %}

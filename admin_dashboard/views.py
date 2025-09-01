@@ -76,7 +76,7 @@ def seller(request):
 
 def products(request):
     q_products = request.GET.get('q_product')
-    products = Products.objects.all()
+    products= Products.objects.all()
 
     if q_products:
         products = products.filter(product_name__icontains=q_products)

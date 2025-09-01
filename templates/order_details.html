@@ -221,7 +221,7 @@
             <p>{{ order.door_no }}, {{ order.street_name }}</p>
             <p>{{ order.city_name }} - {{ order.zip_code }}</p>
             <p>{{ order.district }}, {{ order.state }}</p>
-            <p><strong>Mobile:</strong> +91{{ request.user.mobile }}</p>
+            <p><strong>Mobile:</strong> {{ request.user.mobile }}</p>
             <!-- <p><strong>Payment Method:</strong> {{ order.payment_method }}</p> -->
               <div class="payment-row">
                     <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
@@ -230,7 +230,7 @@
                             {% if is_cart %}
                                 <a href="{% url 'make_payment' order.id %}?from_cart=1" class="button">Make Payment</a>
                             {% else %}
-                                <a href="{% url 'make_payment' order.id %}?" class="button">Make Payment</a>
+                                <a href="{% url 'make_payment' order.id %}" class="button">Make Payment</a>
                             {% endif %}
                         {% elif upi_payment %}
                             {% if is_cart %}

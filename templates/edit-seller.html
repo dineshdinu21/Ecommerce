@@ -88,21 +88,26 @@
 
           <label for="{{ form.first_name.id_for_label }}">First Name</label>
           {{ form.first_name }}
+          {{ form.first_name.errors }}
 
           <label for="{{ form.last_name.id_for_label }}">Last Name</label>
           {{ form.last_name }}
+          {{ form.last_name.errors }}
 
           <label for="{{ form.email.id_for_label }}">Email</label>
           {{ form.email }}
+          {{ form.email.errors }}
         </div>
 
         <div class="col-md-6">
           <label for="{{ form.mobile.id_for_label }}">Mobile</label>
           {{ form.mobile }}
-
+          {{ form.mobile.errors }}
+          
           <label for="{{ form.address.id_for_label }}">Address</label>
           {{ form.address }}
-            <br>
+          {{ form.address.errors }}
+          <br>
           <input type="file" name="{{ form.seller_profile.name }}" id="{{ form.seller_profile.id_for_label }}" class="form-control">
 
         </div>

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm" style="max-width: 500px; margin: auto;">
+        <h2 style="text-align: center;">{{ product.product_name | title }}</h2>
+      <div class="card-header text-white">
+        <img src="{{product.image.url}}" alt="no img" height="200px" width="200px">
+      </div>
+      <div class="card-body">
+        
+        <p><strong></strong> {{ product.description }}</p>
+        <p><strong>Colour:</strong> {{ product.colour }}</p>
+        <p><strong>Price:</strong> {{ product.price }}</p>
+        <p><strong>Discount:</strong> {{ product.discount }}</p>
+        <p><strong>Delivery Charge:</strong> {{ product.delivery_charge }}</p>
+        <p><strong>Available:</strong> {{ product.stock }}</p>
+
+         <a href="{% url 'edit_products' product_id=product.id %}" class="button">Edit</a>
+         <a href="{% url 'delete_products' product_id=product.id %}" class="button">Delete</a>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

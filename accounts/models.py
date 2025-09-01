@@ -26,9 +26,9 @@ class CustomUser(AbstractUser):
 
 
     mobile = models.CharField(
-        max_length=10,
+        max_length=14,
         unique=True,
-        validators=[RegexValidator(r'^[0-9]+$', 'Only numeric characters are allowed.')],
+        validators=[RegexValidator(r'^\+91\s?\d{10}$', 'Enter a valid mobile number with country code.')],
         verbose_name='Mobile Number'
     )
     
@@ -62,7 +62,7 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
     
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['mobile']  # This makes mobile required for createsuperuser
+    REQUIRED_FIELDS = ['mobile']  
     
     def __str__(self):
         return self.username
@@ -70,12 +70,20 @@ class CustomUser(AbstractUser):
 class Products(models.Model):
     seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'user_type': 'seller'})
     image=models.ImageField(upload_to='product_images/')
-    product_name=models.CharField(max_length=25)
-    colour=models.CharField(max_length=20)
-    description=models.CharField(max_length=200)
-    price=models.IntegerField()
-    discount=models.IntegerField()
-    delivery_charge=models.IntegerField()
+    product_name=models.CharField(max_length=25,
+        validators=[RegexValidator(r'^[a-zA-Z][a-zA-Z]*$','Enter a valid product name.')]
+    )
+    colour=models.CharField(max_length=20,
+        validators=[RegexValidator(r'^[a-zA-Z][a-zA-Z]*$','Enter a valid colour.')]
+    )
+    description=models.CharField(max_length=200,
+        validators=[RegexValidator(r'^[a-zA-Z0-9\s.,-]*$','Only alphanumeric characters and certain punctuation are allowed.')]
+    )
+    price=models.PositiveIntegerField()
+    discount=models.PositiveIntegerField(max_length=3,
+        validators=[RegexValidator(r'^\d{1,2}%?$', 'Enter a valid discount amount.')]
+    )
+    delivery_charge=models.PositiveIntegerField()
     stock=models.PositiveIntegerField()
 
 class Cart(models.Model):
@@ -108,7 +116,9 @@ class PlaceOrder(models.Model):
     street_name=models.CharField(max_length=20)
     city_name=models.CharField(max_length=20)
     zip_code=models.IntegerField(null=True,blank=True)
-    mobile=models.IntegerField(null=True,blank=True)
+    mobile=models.CharField(max_length=14,
+        validators=[RegexValidator(r'^\+91\s\d{10}$', 'Enter a valid mobile number with country code.')],
+        verbose_name='Mobile Number')
     district=models.CharField(max_length=20)
     state=models.CharField(max_length=20)
     country=models.CharField(max_length=20,default='India')

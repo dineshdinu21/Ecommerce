@@ -9,11 +9,16 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
+from django.utils.safestring import mark_safe
+import re
 
 def homepage(request):
-    register_details=CustomUser.objects.all()
-    context={"register_details": register_details}
-    return render(request,'homepage2.html',context) 
+    if request.user.is_authenticated:
+        return redirect('product_search')
+    else:
+        register_details=CustomUser.objects.all()
+        context={"register_details": register_details}
+        return render(request,'homepage2.html',context) 
 
 def user_register(request):
     User = get_user_model()
@@ -187,7 +192,10 @@ def add_products(request):
             product = form.save(commit=False)
             product.seller = request.user
             product.save()
+            messages.success(request, 'Product added successfully.')
             return redirect('view_products')
+        else:
+            print(form.errors)
     else:
         form=ProductsAddingForm() 
     return render(request,'add_products.html',{'form':form})
@@ -250,6 +258,33 @@ def reset_password(request,user_id):
     return render(request, 'reset_password.html', {'form': form})
 
             
+# def add_to_cart(request, product_id, user_id):
+#     if request.user.user_type != 'user':
+#         messages.error(request, 'Sellers are not allowed to add products to cart.')
+#         return redirect('homepage')
+
+#     product = get_object_or_404(Products, id=product_id)
+#     user = get_object_or_404(CustomUser, id=user_id)
+
+#     if product.stock > 0:
+#         # Reduce stock
+#         # product.stock -= 1
+#         product.save()
+
+#         # Add or update cart item
+#         cart_item, created = Cart.objects.get_or_create(user=user, products=product)
+#         if not created:
+#             cart_item.quantity += 1
+#         else:
+#             cart_item.quantity = 1
+#         cart_item.save()
+
+#         messages.success(request, 'This product is added to your cart.')
+#         return redirect('product_search')
+#     else:
+#         messages.error(request, 'This product is out of stock.')
+#         return redirect('product_search')
+
 def add_to_cart(request, product_id, user_id):
     if request.user.user_type != 'user':
         messages.error(request, 'Sellers are not allowed to add products to cart.')
@@ -259,23 +294,23 @@ def add_to_cart(request, product_id, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
 
     if product.stock > 0:
-        # Reduce stock
-        product.stock -= 1
-        product.save()
+     
+        cart_item_exists = Cart.objects.filter(user=user, products=product).exists()
 
-        # Add or update cart item
-        cart_item, created = Cart.objects.get_or_create(user=user, products=product)
-        if not created:
-            cart_item.quantity += 1
-        else:
-            cart_item.quantity = 1
-        cart_item.save()
+        if cart_item_exists:
+            messages.error(request, 'This product is already in your cart.')
+            return redirect('product_search')
+
+        
+        cart_item = Cart.objects.create(user=user, products=product, quantity=1)
 
         messages.success(request, 'This product is added to your cart.')
-        return redirect('product_details')
+        return redirect('product_search')
     else:
         messages.error(request, 'This product is out of stock.')
-        return redirect('product_details')
+        return redirect('product_search')
+
+
 
 def cart_quantity(request,cart_item_id,action):
     if request.method == 'POST':
@@ -287,7 +322,6 @@ def cart_quantity(request,cart_item_id,action):
             if product.stock>0:
                 cart_items.quantity+=1
                 print('cart')
-                product.stock-=1
                 cart_items.save()
                 product.save()
                 print('add1')
@@ -296,7 +330,6 @@ def cart_quantity(request,cart_item_id,action):
         elif action == 'decrease':
             if cart_items.quantity>1:
                 cart_items.quantity-=1
-                product.stock+=1
                 cart_items.save()
                 product.save()
             else:
@@ -374,6 +407,14 @@ def place_order(request):
         return redirect('order_summary2', order_id=last_order.id)
 
 
+# def remove_cart(request,cart_item_id):
+#     cart_items=get_object_or_404(Cart,id=cart_item_id)
+#     product=cart_items.products
+#     product.stock += cart_items.quantity
+#     product.save()
+#     cart_items.delete()
+#     return redirect('cart_view')
+
 def remove_cart(request,cart_item_id):
     cart_items=get_object_or_404(Cart,id=cart_item_id)
     cart_items.delete()
@@ -402,7 +443,7 @@ def buynow_view(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     if product.stock == 0:
         messages.error(request,'This product is currently out of stock.')
-        return redirect('product_details')
+        return redirect('product_search')
     quantity = 1
 
     if request.method == 'POST':
@@ -440,7 +481,9 @@ def place_order_view(request, product_id=None):
         cart_items = Cart.objects.filter(user=request.user)
         product = None
         quantity = None
-
+        if not cart_items.exists():
+            messages.error(request, "Your cart is empty. Please add products before placing an order.")
+            return redirect('cart_view')
     if request.method == 'POST':
         form = PlaceOrderForm(request.POST, user=request.user)
         if form.is_valid():
@@ -554,27 +597,41 @@ def card_payment(request, order_id):
     from_cart = request.GET.get('from_cart') == '1'
     local_time = timezone.localtime()
     order = get_object_or_404(PlaceOrder, id=order_id, user=request.user)
-    cart = Cart.objects.filter(user=request.user)
+    cart_items = Cart.objects.filter(user=request.user)
     
     product = order.product
     quantity = order.quantity
     price_details = calculate_price(product, quantity)
-    cart_total={}
-    
+    cart_total = {}
+
     if from_cart:
-        cart = Cart.objects.filter(user=request.user)
-        cart_total = calculate_cart_totals(cart)
-    
+        cart_total = calculate_cart_totals(cart_items)
+
     if request.method == 'POST':
+        # Reduce stock for cart items if from_cart
+        if from_cart:
+            for item in cart_items:
+                prod = item.products
+                if prod.stock >= item.quantity:
+                    prod.stock -= item.quantity
+                    prod.save()
+        else:
+            # Buy Now flow
+            if product.stock >= quantity:
+                product.stock -= quantity
+                product.save()
+
+        # Delete cart after stock update
         delete_cart(request, order)
+
         return render(request, 'payment_success.html', {
-                'order': order,
-                **price_details,
-                'payment_method': 'UPI_ID Payment',
-                'timestamp': local_time,
-                **cart_total,
-                'is_cart': from_cart
-            })
+            'order': order,
+            **price_details,
+            'payment_method': 'Card Payment',
+            'timestamp': local_time,
+            **cart_total,
+            'is_cart': from_cart
+        })
 
     return render(request, 'card_payment.html', {
         'order': order,
@@ -584,27 +641,42 @@ def card_payment(request, order_id):
     })
 
 
+
 def upi_payment(request, order_id):
     from_cart = request.GET.get('from_cart') == '1'
     local_time = timezone.localtime()
     order = get_object_or_404(PlaceOrder, id=order_id, user=request.user)
-    cart = Cart.objects.filter(user=request.user)
-    
+    cart_items = Cart.objects.filter(user=request.user)  # all cart items
+
     product = order.product
     quantity = order.quantity
     price_details = calculate_price(product, quantity)
     cart_total = {}
+
     if from_cart:
-        cart = Cart.objects.filter(user=request.user)
-        cart_total = calculate_cart_totals(cart)
+        cart_total = calculate_cart_totals(cart_items)
 
     if request.method == 'POST':
         method = request.POST.get('method')
 
+        # UPI ID payment
         if method == 'upi':
             upi_id = request.POST.get('upi_id')
             if upi_id:
-                delete_cart(request, order)
+                # Reduce stock for cart items
+                if from_cart:
+                    for item in cart_items:
+                        product = item.products
+                        if product.stock >= item.quantity:
+                            product.stock -= item.quantity
+                            product.save()
+                    delete_cart(request, order)  # clear cart after stock update
+                else:
+                    if product.stock >= quantity:
+                        product.stock -= quantity
+                        product.save()
+                        delete_cart(request, order)
+
                 return render(request, 'payment_success.html', {
                     'order': order,
                     **price_details,
@@ -619,7 +691,19 @@ def upi_payment(request, order_id):
         else:
             upi_qr = request.POST.get('upi_qr')
             if upi_qr:
-                delete_cart(request, order)
+                if from_cart:
+                    for item in cart_items:
+                        product = item.products
+                        if product.stock >= item.quantity:
+                            product.stock -= item.quantity
+                            product.save()
+                    delete_cart(request, order)
+                else:
+                    if product.stock >= quantity:
+                        product.stock -= quantity
+                        product.save()
+                        delete_cart(request, order)
+
                 return render(request, 'payment_success.html', {
                     'order': order,
                     **price_details,
@@ -638,6 +722,7 @@ def upi_payment(request, order_id):
         'is_cart': from_cart
     })
 
+
 def order_successfull(request,order_id):
     from_cart = request.GET.get('from_cart') == '1'
     local_time = timezone.localtime()
@@ -651,9 +736,18 @@ def order_successfull(request,order_id):
     
     if from_cart:
         cart = Cart.objects.filter(user=request.user)
+        for item in cart:
+            product = item.products
+            if product.stock >= item.quantity:
+                product.stock -= item.quantity
+                product.save()
         cart_total = calculate_cart_totals(cart)
         delete_cart(request, order)
-    
+    else:
+        if product.stock >= quantity:
+            product.stock -= quantity
+            product.save()
+
     if request.method == 'POST':
         return render(request, 'order_success.html', {
                 'order': order,
@@ -673,7 +767,7 @@ def order_successfull(request,order_id):
     })
         
 def order_history(request):
-    orders = PlaceOrder.objects.filter(user=request.user).order_by('-id')  # All products ordered by user
+    orders = PlaceOrder.objects.filter(user=request.user).order_by('-id')  
 
     return render(request, 'order_history.html', {
         'orders': orders,
@@ -685,3 +779,24 @@ def clear_order_history(request):
 
 def about(request):
     return render(request,'about.html')
+
+def products_search(request):
+    q_products = request.GET.get('q_product')
+    products = Products.objects.all()
+
+    if q_products:
+        products = products.filter(product_name__icontains=q_products)
+
+    for product in products:
+        if q_products:
+            product_name = product.product_name.title()
+            pattern = re.compile(re.escape(q_products), re.IGNORECASE)
+            highlighted = pattern.sub(
+                lambda m: f'<span style="background-color: yellow; color: black;">{m.group(0)}</span>',
+                product_name
+            )
+            product.highlighted_productname = mark_safe(highlighted)
+        else:
+            product.highlighted_productname = product.product_name.title()
+
+    return render(request, 'products.html', {'products': products})

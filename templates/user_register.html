@@ -68,14 +68,20 @@
             {{ form.username.errors }}
           </div>
 
-          <div class="mb-3">
+          <div class="mb-3 position-relative">
             {{ form.password }}
             {{ form.password.errors }}
+            <i class="bi bi-eye" id="togglePassword" 
+              style="position:absolute; right:15px; top:8px; cursor:pointer; font-size:18px;">
+            </i>
           </div>
 
-          <div class="mb-3">
+          <div class="mb-3 position-relative">
             {{ form.password2 }}
             {{ form.password2.errors }}
+            <i class="bi bi-eye" id="toggleConfirmPassword" 
+              style="position:absolute; right:15px; top:8px; cursor:pointer; font-size:18px;">
+            </i>
           </div>
 
           <div class="mb-3">
