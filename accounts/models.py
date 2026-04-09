@@ -71,7 +71,7 @@ class Products(models.Model):
     seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'user_type': 'seller'})
     image=models.ImageField(upload_to='product_images/')
     product_name=models.CharField(max_length=25,
-        validators=[RegexValidator(r'^[a-zA-Z][a-zA-Z]*$','Enter a valid product name.')]
+        validators=[RegexValidator(r'^[a-zA-Z][a-zA-Z\s]*$','Enter a valid product name.')]
     )
     colour=models.CharField(max_length=20,
         validators=[RegexValidator(r'^[a-zA-Z][a-zA-Z]*$','Enter a valid colour.')]
