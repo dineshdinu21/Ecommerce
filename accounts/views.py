@@ -66,7 +66,7 @@ def user_login(request):
             return render(request, 'login.html', {'form': form})
     else:
         form=LoginForm()
-    return render(request,'Login.html',{'form':form})
+    return render(request,'login.html',{'form':form})
 
 
 @login_required
