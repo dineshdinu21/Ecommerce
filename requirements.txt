@@ -1,7 +1,7 @@
+setuptools
+gunicorn
 asgiref==3.9.1
 Django==5.2.5
 pillow==11.3.0
 sqlparse==0.5.3
 tzdata==2025.2
-gunicorn==20.1.0
-setuptools
