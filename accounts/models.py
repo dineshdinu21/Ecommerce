@@ -80,7 +80,7 @@ class Products(models.Model):
         validators=[RegexValidator(r'^[a-zA-Z0-9\s.,-]*$','Only alphanumeric characters and certain punctuation are allowed.')]
     )
     price=models.PositiveIntegerField()
-    discount=models.PositiveIntegerField(max_length=3,
+    discount=models.PositiveIntegerField(
         validators=[RegexValidator(r'^\d{1,2}%?$', 'Enter a valid discount amount.')]
     )
     delivery_charge=models.PositiveIntegerField()
