@@ -13,8 +13,9 @@
         }
 
     .payment-card {
+            width: 100%;
             max-width: 450px;
-            height: 443px;
+            min-height: 443px;
             margin: 20px auto;
             padding: 25px;
             border-radius: 15px;
@@ -25,30 +26,33 @@
     .bhim{
             margin: 10px 0px 0px 100px;
         }
-    @media(max-width:425px){
-        .payment-card{
-            max-width: 400px;
-            height: 470px;
+    @media (max-width: 450px) {
+
+        body {
+            padding: 10px;
+            align-items: flex-start;
+            height: auto;
         }
-    }
-    @media(max-width:375px){
-        .payment-card{
-            max-width: 370px;
-            height: 470px;
+
+        .payment-card {
+            width: 100%;
+            margin-top: 8%;
+            max-width: 410px;
+            padding: 18px;
+            border-radius: 12px;
+            box-sizing: border-box;
         }
-        .bhim{
-            margin-left: 57px;
+
+        .upi-option img:first-child {
+            width: 160px;
+            height: auto;
         }
-    }
-    @media(max-width:320px){
-        .payment-card{
-            max-width: 318px;
-            height: 485px;
-            padding: auto;
+
+        .bhim {
+            margin-left: auto;
+            margin-top: 10px;
         }
-        .bhim{
-            margin-left: 10px;
-        }
+
     }
 </style>
 

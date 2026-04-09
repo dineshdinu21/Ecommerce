@@ -317,17 +317,24 @@ body{
   .info-section{
     margin-top: 10px;
   } 
+  }
   @media(max-width:1024px){
     .info-section{
       margin-left: -10%;
     }
   }
-  @media(max-width:425px){
+  @media(max-width:500px){
+    .header-wave{
+      margin-right: -30%;
+    }
     .info-section{
-      margin-left: -60%;
-      overflow: auto;
+      padding: 20px 100px;
     }
   }
+  @media(max-width:350px){
+    .info-item{
+      width: 230px;
+    }
   }
   .info-item {
     display: flex;

@@ -8,7 +8,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px, 0;
     }
 
     .registration-card {
@@ -70,37 +72,49 @@
 
     @media (max-width: 1440px){
         .registration-card{
-            margin-top: 40px;
-            height: 470px;
-            padding: 2px;
+            width: 90%;
+            max-width: 900px;
+            height: auto;
+            padding: 20px;
         }
     }
     @media (max-width: 768px) {
-      .col-md-4 {
-        width: 50%;
-        flex: 0 0 50%;
+      body {
+        align-items: flex-start; /* மொபைலில் கார்டு ரொம்ப பெருசா இருந்தா மேல இருந்து ஆரம்பிக்க */
+        padding-top: 50px; /* மேல ஒரு நல்ல கேப் கிடைக்க */
+      }
+      
+      .registration-card {
+        width: 90%;
+        height: auto; 
+        margin: 0 auto; /* சென்டர் செய்ய */
       }
 
-      .registration-card {
-        width: 94%;
-        height: 665px;
-        margin: 20px;
+      .col-md-4 {
+        width: 100%; /* டேப்லெட்/மொபைலில் வரிசைக்கு ஒரு இன்புட் வருவது பார்க்க அழகாக இருக்கும் */
+        flex: 0 0 100%;
       }
-      .placeorder{
+      
+      .placeorder {
         width: 100%;
-        margin-top: 24px;
+        text-align: center;
       }
     }
+
     @media (max-width: 425px) {
-      .registration-card {
-        margin: 20px auto;        
-        width: 95%;              
-        height: auto;              
+      body {
+        padding-top: 30px;
       }
-      .payment_method{
-        width: 75px;
+      
+      .registration-card {
+        width: 95%;
+        padding: 15px;
       }
 
+      .payment_method {
+        width: 100%; /* மொபைலில் முழு அகலமும் எடுத்துக்கொள்ளும் */
+      }
+    }
       body {
         padding: 0;
         margin: 0;
